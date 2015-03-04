@@ -4,7 +4,7 @@ function [ x_J,iterations_J] = NE_155_HW4_Problem_6_1(n,x_0)
 %the first x_k solution in the iteritive solving method. 
 %   Outputs for this function are the final solution vector, x_J, within an error
 %greater than 10^-6 and the number of iterations, iterations_J, it took.
-
+format long
 %Build A and b based off of n
 A=zeros(n);
 A(1,1)=4;
@@ -23,17 +23,16 @@ b=100*ones(n,1);
 %Use the Jacobi Iteritive method to solve for x_J.
 %x_k1=D^(-1)*(D-A)*x_k+D^(-1)*b, where D is the diag(D)
 D=diag(diag(A));
-    
-x=A\b;
-x_k=x_0;
 
-e=norm(abs(x-x_k));
+x_k=inv(D)*(D-A)*x_0+inv(D)*b;
+
+e=norm(abs(x_k-x_0));
 iterations_J=0;
 while e > 10^-6
     x_k=inv(D)*(D-A)*x_0+inv(D)*b;
+    e=norm(abs(x_k-x_0));
     x_0=x_k;
-    iterations_J=iterations_J+1;
-    e=norm(abs(x-x_k));
+    iterations_J=iterations_J+1;   
 end
 
 x_J=x_k;

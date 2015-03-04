@@ -4,7 +4,7 @@ function [ x_GS,iterations_GS ] = NE_155_HW4_Problem_6_2( n,x_0 )
 %the first x_k solution in the iteritive solving method. 
 %   Outputs for this function are the final solution vector, x_GS, within an error
 %greater than 10^-6 and the number of iterations, iterations_GS, it took.
-
+format long
 %Build A and b based off of n
 A=zeros(n);
 A(1,1)=4;
@@ -32,14 +32,15 @@ x_k=x_0;
 iterations_GS=0;
 L=tril(A)-D;
 U=triu(A)-D;
-
-e=norm(abs(x-x_k));
+x_k=(-1)*inv(D+L)*U*x_0+inv(D+L)*b;
+e=norm(abs(x_k-x_0));
 
 while e > 10^-6
     x_k=(-1)*inv(D+L)*U*x_0+inv(D+L)*b;
+    e=norm(abs(x_k-x_0));
     x_0=x_k;
     iterations_GS=iterations_GS+1;
-    e=norm(abs(x-x_k));
+   
 end
 
 x_GS=x_k;

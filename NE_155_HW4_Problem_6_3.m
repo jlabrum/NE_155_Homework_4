@@ -5,7 +5,7 @@ function [ x_SOR,iterations_SOR ] = NE_155_HW4_Problem_6_3( n,x_0,w )
 %added to speed p iterations,0<w<2. 
 %   Outputs for this function are the final solution vector, x_SOR, within an error
 %greater than 10^-6 and the number of iterations, iterations_SOR, it took.
-
+format long
 %Build A and b based off of n
 A=zeros(n);
 A(1,1)=4;
@@ -34,14 +34,14 @@ x_k=x_0;
 iterations_SOR=0;
 L=tril(A)-D;
 U=triu(A)-D;
-
-e=norm(abs(x-x_k));
+x_k=inv(D+w*L)*((1-w)*D-w*U)*x_0+inv(D+w*L)*w*b;
+e=norm(abs(x_k-x_0));
 
 while e > 10^-6
     x_k=inv(D+w*L)*((1-w)*D-w*U)*x_0+inv(D+w*L)*w*b;
+    e=norm(abs(x_k-x_0));
     x_0=x_k;
-    iterations_SOR=iterations_SOR+1;
-    e=norm(abs(x-x_k));
+    iterations_SOR=iterations_SOR+1;   
 end
 
 x_SOR=x_k;
